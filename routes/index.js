@@ -6,37 +6,76 @@ var Activity = require('../models').Activity;
 
 
 router.get('/', function(req, res, next) {
-  Promise.all([
-    Hotel.findAll(),
-    Restaurant.findAll(),
-    Activity.findAll()
-  ])
-  .spread(function(dbHotels, dbRestaurants, dbActivities) {
-    res.render('index', {
-      templateHotels: dbHotels,
-      templateRestaurants: dbRestaurants,
-      templateActivities: dbActivities
-    });
-  })
-  .catch(next);
+    Promise.all([
+            Hotel.findAll(),
+            Restaurant.findAll(),
+            Activity.findAll()
+        ])
+        .spread(function(dbHotels, dbRestaurants, dbActivities) {
+            res.render('index', {
+                templateHotels: dbHotels,
+                templateRestaurants: dbRestaurants,
+                templateActivities: dbActivities
+            });
+        })
+        .catch(next);
 });
 
-router.get('/hotels',(req, res, next)=>{
-  Hotel.findAll()
-    .then((data)=>{res.json(data);})
-    .catch(next);
+router.get('/hotels', (req, res, next) => {
+    Hotel.findAll()
+        .then((data) => { res.json(data); })
+        .catch(next);
 })
 
-router.get('/restaurants',(req, res, next)=>{
-  Restaurant.findAll()
-    .then((data)=>{res.json(data);})
-    .catch(next);
+router.get('/restaurants', (req, res, next) => {
+    Restaurant.findAll()
+        .then((data) => { res.json(data); })
+        .catch(next);
 })
 
-router.get('/activities',(req, res, next)=>{
-  Activity.findAll()
-    .then((data)=>{res.json(data);})
-    .catch(next);
+router.get('/activities', (req, res, next) => {
+    Activity.findAll()
+        .then((data) => { res.json(data); })
+        .catch(next);
 })
 
+
+//DAY ROUTES BELOW
+router.get('/days', (req, res, next) => {
+    Day.findAll()
+        .then((data) => { res.json(data); })
+        .catch(next);
+})
+
+router.get('/days/:number', (req, res, next) => {
+    Day.findOne(
+            where: {
+                number: req.params.number
+            }
+        )
+        .then((data) => { res.json(data); })
+        .catch(next);
+})
+
+router.delete('/days/:number', (req, res, next) => {
+    Day.findOne(
+            where: {
+                number: req.params.number
+            }
+        )
+        .then((data) => {
+            res.send('DELETED!');
+        })
+        .catch(next);
+})
+
+router.post('/days/create', (req, res, next) => {
+    Day.create()
+        .then((data) => {
+            res.json(data);
+        })
+        .catch(next);
+})
+
+//EXPORTING MODULE
 module.exports = router;
