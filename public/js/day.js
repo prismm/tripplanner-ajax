@@ -27,20 +27,32 @@ var dayModule = (function() {
     // If you follow the logic of `attractionsModule.getEnhanced` (try following it!), you will note that it depends on `loadEnhanceAttractions` to have run.
     //Note that `loadEnhancedAttractions` is already being called for you in `/public/js/options.js` and that it utilizes another method given to us by the `attractionModule` (singular). 
     // ~~~~~~~~~~~~~~~~~~~~~~~
+    function getHotel(day) {
+        return $.ajax({
+                method: 'GET',
+                url: "/hotels/" + day.hotelId
+            })
+            .then((hotel) => {
+                return hotel;
+            })
+            .catch(console.error)
+    }
+
     function Day(data) {
         // for brand-new days
+        console.log("CREATING DAY LINE 44", data);
         this.number = 0;
         this.hotel = null;
         this.restaurants = [];
         this.activities = [];
         // for days based on existing data
         utilsModule.merge(data, this);
+
         if (this.hotel) this.hotel = attractionsModule.getEnhanced(this.hotel);
         this.restaurants = this.restaurants.map(attractionsModule.getEnhanced);
         this.activities = this.activities.map(attractionsModule.getEnhanced);
-        // remainder of constructor
-        // console.log(this);
         this.buildButton().showButton();
+
     }
 
     // automatic day button handling
@@ -60,10 +72,9 @@ var dayModule = (function() {
         this.$button.on('click', function() {
             var days = $(tripModule.gimmeDays());
             var today = days[self.number - 1];
-            this.blur(); // removes focus box from buttons
-            $dayHotel.append('<li></li>').text(today.hotel);
-            // $dayRestaurants.append('<li>hello</li>').text(today.restaurants);
-            // $dayActivities.append('<li>hello</li>').text(today.activities);
+            console.log(today);
+            console.log(today.hotel);
+            this.blur();
             tripModule.switchTo(self);
         });
 

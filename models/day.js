@@ -9,7 +9,7 @@ const Day = db.define('day', {
     number: Sequelize.INTEGER,
 }, {
     getterMethods: {
-        //getter methods; 
+        // hotel: function() {};
     }
 });
 

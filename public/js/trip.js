@@ -55,7 +55,7 @@ var tripModule = (function() {
         var newDay;
         if (this && this.blur) this.blur(); // removes focus box from buttons
         if (day) {
-            newDay = dayModule.create({ number: day.number });
+            newDay = dayModule.create(day);
         } else {
             newDay = dayModule.create({ number: days.length + 1 }); // dayModule
         }
@@ -102,7 +102,7 @@ var tripModule = (function() {
                         return a.number - b.number;
                     });
                     days.forEach(addDay);
-                    // console.log(days);
+
                 })
         },
 
@@ -116,7 +116,7 @@ var tripModule = (function() {
 
         removeFromCurrent: function(attraction) {
             currentDay.removeAttraction(attraction);
-        }
+        },
 
     };
 

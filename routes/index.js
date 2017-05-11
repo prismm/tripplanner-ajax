@@ -28,6 +28,12 @@ router.get('/hotels', (req, res, next) => {
         .catch(next);
 })
 
+router.get('/hotels/:id', (req, res, next) => {
+    Hotel.findById(req.params.id)
+        .then((data) => { res.json(data); })
+        .catch(next);
+})
+
 router.get('/restaurants', (req, res, next) => {
     Restaurant.findAll()
         .then((data) => { res.json(data); })
@@ -43,27 +49,41 @@ router.get('/activities', (req, res, next) => {
 
 //DAY ROUTES BELOW
 router.get('/days', (req, res, next) => {
-    Day.findAll()
+    Day.findAll({
+            include: [{
+                    model: Hotel
+                },
+                {
+                    model: Restaurant
+                },
+                {
+                    model: Activity
+                }
+            ]
+        })
         .then((data) => { res.json(data); })
         .catch(next);
 })
 
 router.get('/days/:number', (req, res, next) => {
-    Day.findOne(
-            {where: {
+    Day.findOne({
+            where: {
                 number: req.params.number
             }
-            })
-        .then((data) => { res.json(data); })
+        })
+        .then((data) => {
+            console.log(data);
+            res.json(data);
+        })
         .catch(next);
 })
 
 router.delete('/days/:number', (req, res, next) => {
-    Day.findOne(
-            {where: {
+    Day.findOne({
+            where: {
                 number: req.params.number
             }
-            })
+        })
         .then((data) => {
             res.send('DELETED!');
         })
