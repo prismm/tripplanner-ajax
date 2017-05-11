@@ -3,6 +3,7 @@ var router = require('express').Router();
 var Hotel = require('../models').Hotel;
 var Restaurant = require('../models').Restaurant;
 var Activity = require('../models').Activity;
+var Day = require('../models').Day;
 
 
 router.get('/', function(req, res, next) {
@@ -49,32 +50,84 @@ router.get('/days', (req, res, next) => {
 
 router.get('/days/:number', (req, res, next) => {
     Day.findOne(
-            where: {
+            {where: {
                 number: req.params.number
             }
-        )
+            })
         .then((data) => { res.json(data); })
         .catch(next);
 })
 
 router.delete('/days/:number', (req, res, next) => {
     Day.findOne(
-            where: {
+            {where: {
                 number: req.params.number
             }
-        )
+            })
         .then((data) => {
             res.send('DELETED!');
         })
         .catch(next);
 })
 
-router.post('/days/create', (req, res, next) => {
+router.post('/days', (req, res, next) => {
     Day.create()
         .then((data) => {
             res.json(data);
         })
         .catch(next);
+})
+
+// POST Attractions for a given day
+
+router.post('/days/:id/restaurants', (req, res, next) => {
+    // Day.create()
+    //     .then((data) => {
+    //         res.json(data);
+    //     })
+    //     .catch(next);
+})
+
+router.post('/days/:id/activities', (req, res, next) => {
+    // Day.create()
+    //     .then((data) => {
+    //         res.json(data);
+    //     })
+    //     .catch(next);
+})
+
+router.post('/days/:id/hotel', (req, res, next) => {
+    // Day.create()
+    //     .then((data) => {
+    //         res.json(data);
+    //     })
+    //     .catch(next);
+})
+
+// DELETE Attractions for a given day
+
+router.delete('/days/:id/restaurants', (req, res, next) => {
+    // Day.create()
+    //     .then((data) => {
+    //         res.json(data);
+    //     })
+    //     .catch(next);
+})
+
+router.delete('/days/:id/activities', (req, res, next) => {
+    // Day.create()
+    //     .then((data) => {
+    //         res.json(data);
+    //     })
+    //     .catch(next);
+})
+
+router.delete('/days/:id/hotel', (req, res, next) => {
+    // Day.create()
+    //     .then((data) => {
+    //         res.json(data);
+    //     })
+    //     .catch(next);
 })
 
 //EXPORTING MODULE
